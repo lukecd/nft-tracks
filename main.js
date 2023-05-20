@@ -63,6 +63,7 @@ class Stem {
 				// Create an AudioBufferSourceNode and connect it to the GainNode
 				this.audioSource = this.audioContext.createBufferSource();
 				this.audioSource.buffer = decodedAudio;
+				this.audioSource.loop = true; // Setting the loop to true
 				this.audioSource.connect(this.gainNode);
 
 				// Connect the GainNode to the AudioContext's destination
