@@ -37,73 +37,47 @@ const handlePlayPauseClick = () => {
 
 class Stem {
 	constructor(path) {
-		this.path = path;
-		this.isMuted = false;
+		this.audio = new Audio(path);
+		this.isLoaded = false;
+		this.muted = true;
+		// Add event listener for when audio is loaded
+		this.audio.addEventListener(
+			"canplaythrough",
+			() => {
+				this.isLoaded = true;
+				console.log(`${path} is loaded`);
+			},
+			false,
+		);
 
-		// Create an AudioContext and a GainNode
-		this.audioContext = new AudioContext();
-		this.gainNode = this.audioContext.createGain();
-
-		// Create an oscillator with a random initial phase
-		this.oscillator = this.audioContext.createOscillator();
-		this.oscillator.type = "sine";
-		this.oscillator.frequency.value = 0.2; // very low frequency for slow oscillation
-		this.oscillator.start(
-			this.audioContext.currentTime + Math.random() * 2 * Math.PI,
-		); // random phase
-
-		// Connect the oscillator to the GainNode
-		this.oscillator.connect(this.gainNode);
-
-		// Load the audio file
-		fetch(path)
-			.then((response) => response.arrayBuffer())
-			.then((buffer) => this.audioContext.decodeAudioData(buffer))
-			.then((decodedAudio) => {
-				// Create an AudioBufferSourceNode and connect it to the GainNode
-				this.audioSource = this.audioContext.createBufferSource();
-				this.audioSource.buffer = decodedAudio;
-				this.audioSource.loop = true; // Setting the loop to true
-				this.audioSource.connect(this.gainNode);
-
-				// Connect the GainNode to the AudioContext's destination
-				this.gainNode.connect(this.audioContext.destination);
-			});
+		this.mute(true);
 	}
 
 	play() {
-		if (!this.isMuted && this.audioSource) {
-			this.audioSource.start();
+		if (this.isLoaded) {
+			this.audio.play();
+		} else {
+			console.error("Audio file is not fully loaded yet.");
 		}
 	}
 
-	mute(mute) {
-		this.isMuted = mute;
+	pause() {
+		this.audio.pause();
+	}
 
-		// Disconnect or reconnect the GainNode as necessary
-		if (mute) {
-			this.gainNode.disconnect();
-		} else if (this.audioSource) {
-			this.gainNode.connect(this.audioContext.destination);
-		}
+	mute(shouldMute) {
+		this.audio.volume = shouldMute ? 0 : 1;
+		this.muted = shouldMute;
 	}
 }
 
-// And here's how you might use the class:
-let stem1 = new Stem("./stems/stem1.mp3");
-let stem2 = new Stem("./stems/stem2.mp3");
-let stem3 = new Stem("./stems/stem3.mp3");
-let stem4 = new Stem("./stems/stem4.mp3");
-
-// wait for all stems to load
-let waitInterval = setInterval(() => {
-	if ([stem1, stem2, stem3, stem4].every((stem) => stem.audioSource)) {
-		clearInterval(waitInterval);
-
-		// play all stems
-		[stem1, stem2, stem3, stem4].forEach((stem) => stem.play());
-	}
-}, 500);
+// Create instances of Stem
+const stems = [
+	new Stem("./stems/stem1.mp3"),
+	new Stem("./stems/stem2.mp3"),
+	new Stem("./stems/stem3.mp3"),
+	new Stem("./stems/stem4.mp3"),
+];
 
 // SNGEfWnuhgiFn4U5jHktgK4IXRs72C9Hn9VWm1IkDOE
 // noatSQXdEk730UQMeBblzah9JQZvbjXqVakA_cDVg4g
