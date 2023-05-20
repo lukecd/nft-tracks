@@ -40,6 +40,8 @@ class Stem {
 		this.audio = new Audio(path);
 		this.isLoaded = false;
 		this.muted = true;
+		this.audio.loop = true; // Loop the audio
+
 		// Add event listener for when audio is loaded
 		this.audio.addEventListener(
 			"canplaythrough",
