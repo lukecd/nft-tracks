@@ -1,0 +1,84 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+.container {
+	width: 600px;
+	height: 600px;
+	margin: 10px auto;
+	position: relative;
+	background: linear-gradient(to bottom, #0077b6, #60a3bc);
+}
+
+.button-container {
+	width: 100%;
+	height: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 3px;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+.button {
+	width: 240px;
+	height: 240px;
+	border-radius: 50%;
+	color: #fff;
+	font-family: "Gill Sans", sans-serif;
+	font-size: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.button.button1 {
+	background: linear-gradient(to bottom, #fc575e, #90d5ec);
+}
+
+.button.button2 {
+	background: linear-gradient(to bottom, #fb7ba2, #fce043);
+}
+
+.button.button3 {
+	background: linear-gradient(to bottom, #ec9f05, #ff4e00);
+}
+
+.button.button4 {
+	background: linear-gradient(to bottom, #05d6d9, #f907fc);
+}
+
+.button.active {
+	background: linear-gradient(to bottom, #0077b6, #60a3bc);
+}
+
+.play-button-container {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+}
+
+.play-button {
+	width: 300px;
+	height: 80px;
+	background: linear-gradient(to bottom, #fca311, #ff8c7b);
+	border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-family: "Gill Sans", sans-serif;
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.play-button.pause {
+	background: linear-gradient(to bottom, #60a3bc, #0077b6);
+}
